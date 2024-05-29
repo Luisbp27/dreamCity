@@ -1,8 +1,3 @@
-% Pràctca PROLOG
-% Assignatura: Llenguatges de Programació
-% Grau en Enginyeria Informàtica - Universitat de le Illes Balears
-% Autors: Eduardo Bonnín Narváez i Lluis Barca Pons
-
 % Definició de la estructura bàsica de la ciutat
 ciutats(Nord, Est, Sud, Oest, Ciutat) :-
     length(Ciutat, 4),

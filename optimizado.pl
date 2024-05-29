@@ -3,14 +3,16 @@
 % Grau en Enginyeria Informàtica - Universitat de les Illes Balears
 % Autores: Eduardo Bonnín Narváez i Lluis Barca Pons (Grupo de Trabajo 3)
 
-% Genera todas las matrices posibles que cumplen con la restricción de fila
-generar_matrices(Matriz) :-
-    permuta([1, 2, 3, 4], F1),
-    permuta([1, 2, 3, 4], F2),
-    permuta([1, 2, 3, 4], F3),
-    permuta([1, 2, 3, 4], F4),
+% Genera todas las matrices posibles que cumplen con la restricción de fila y verifica visibilidad preliminar
+generar_matrices(Matriz, VisOesteEsperado, VisEsteEsperado) :-
+    permuta([1, 2, 3, 4], F1), visibles(F1, V1Oeste), invertir(F1, F1Inv), visibles(F1Inv, V1Este),
+    permuta([1, 2, 3, 4], F2), visibles(F2, V2Oeste), invertir(F2, F2Inv), visibles(F2Inv, V2Este),
+    permuta([1, 2, 3, 4], F3), visibles(F3, V3Oeste), invertir(F3, F3Inv), visibles(F3Inv, V3Este),
+    permuta([1, 2, 3, 4], F4), visibles(F4, V4Oeste), invertir(F4, F4Inv), visibles(F4Inv, V4Este),
     Matriz = [F1, F2, F3, F4],
-    columnas_validas(Matriz).
+    columnas_validas(Matriz),
+    VisOesteEsperado = [V1Oeste, V2Oeste, V3Oeste, V4Oeste],
+    VisEsteEsperado = [V1Este, V2Este, V3Este, V4Este].
 
 % Verifica que las columnas de la matriz también cumplan la restricción
 columnas_validas([[A1, B1, C1, D1], [A2, B2, C2, D2], [A3, B3, C3, D3], [A4, B4, C4, D4]]) :-
@@ -38,20 +40,6 @@ visibles_aux([Altura|Resto], MaxAltura, Acumulador, Cantidad) :-
     Altura =< MaxAltura,
     visibles_aux(Resto, MaxAltura, Acumulador, Cantidad).
 
-
-% Cálculo de visibilidad para todas las filas y columnas en el orden Oeste, Este, Norte, Sur
-calcular_visibilidad(Matriz, VisOeste, VisEste, VisNorte, VisSur) :-
-    calcular_visibilidad_filas(Matriz, VisOeste, VisEste),
-    calcular_visibilidad_columnas(Matriz, VisNorte, VisSur).
-
-% Filas
-calcular_visibilidad_filas([], [], []).
-calcular_visibilidad_filas([Fila|Resto], [VisOeste|RestoOeste], [VisEste|RestoEste]) :-
-    visibles(Fila, VisOeste),
-    invertir(Fila, FilaInvertida),
-    visibles(FilaInvertida, VisEste),
-    calcular_visibilidad_filas(Resto, RestoOeste, RestoEste).
-
 % Columnas
 calcular_visibilidad_columnas(Matriz, VisNorte, VisSur) :-
     calcular_visibilidad_columnas(Matriz, VisNorte, VisSur, 1).
@@ -68,8 +56,8 @@ calcular_visibilidad_columnas(Matriz, [VisNorte|RestoNorte], [VisSur|RestoSur], 
 
 % Método principal que comprueba si la matriz generada cumple con las visibilidades dadas
 ciutats(VisOeste, VisEste, VisNorte, VisSur, Matriz) :-
-    generar_matrices(Matriz),
-    calcular_visibilidad(Matriz, CalculadoOeste, CalculadoEste, CalculadoNorte, CalculadoSur),
+    generar_matrices(Matriz, VisOeste, VisEste),
+    calcular_visibilidad_columnas(Matriz, VisNorte, VisSur).
     % Compara las visibilidades calculadas con las proporcionadas
     VisOeste = CalculadoOeste,
     VisEste = CalculadoEste,

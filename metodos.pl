@@ -23,3 +23,18 @@ imprimir_matriz([]).
 imprimir_matriz([Fila|Resto]) :-
     writeln(Fila),
     imprimir_matriz(Resto).
+
+% VISIBLES CON IF
+% Cuenta cuántos edificios son visibles desde el principio de la lista
+visibles(Lista, Cantidad) :-
+    visibles_aux(Lista, 0, 0, Cantidad).
+
+% visibles_aux(Lista, MaxAltura, Acumulador, Cantidad)
+visibles_aux([], _, Contador, Contador).
+visibles_aux([Altura|Resto], MaxAltura, Acumulador, Cantidad) :-
+    (Altura > MaxAltura -> 
+        NuevoAcum is Acumulador + 1,
+        visibles_aux(Resto, Altura, NuevoAcum, Cantidad)
+    ;
+        visibles_aux(Resto, MaxAltura, Acumulador, Cantidad)
+    ).
