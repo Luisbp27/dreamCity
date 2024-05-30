@@ -8,5 +8,5 @@
 
 ### Funcions bàsiques implementades
 
-- [] Determinar les altures dels edificis en una ciutat de mida 4×4.
-- [] Indicació dels voltants amb quatre llistes de 4 elements.
+- [x] Determinar les altures dels edificis en una ciutat de mida 4×4.
+- [x] Indicació dels voltants amb quatre llistes de 4 elements.
